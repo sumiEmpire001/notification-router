@@ -1,0 +1,3 @@
+#include "EmbeddedCore.h"
+#include <cassert>
+int main(){using namespace lord_sumi;NotificationGate g({1320,480,true});assert(g.decide(10,1380)==GateDecision::Quiet);assert(g.decide(11,600)==GateDecision::Allow);assert(g.decide(9,600)==GateDecision::Invalid);assert(g.decide(12,600)==GateDecision::Fault);g.reset();assert(g.decide(0,600)==GateDecision::Allow);NotificationGate off({0,0,false});assert(off.decide(0,20)==GateDecision::Disabled);}
