@@ -1,0 +1,24 @@
+name: Embedded C++ and Python regression
+on:
+  push:
+    branches: [main, 'portfolio/**']
+  pull_request:
+jobs:
+  cpp:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        compiler: [g++, clang++]
+    steps:
+      - uses: actions/checkout@v4
+      - run: cmake -S . -B build -DCMAKE_CXX_COMPILER=${{ matrix.compiler }}
+      - run: cmake --build build
+      - run: ctest --test-dir build --output-on-failure
+  python:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m unittest discover -s tests -v
